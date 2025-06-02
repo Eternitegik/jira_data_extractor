@@ -11,24 +11,10 @@ body {
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 24px;
+  margin-top: 15px;
   margin-bottom: 10px;
-}
-
-.instruction {
-  max-width: 600px;
-  width: 100%;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  margin-bottom: 20px;
-  padding: 5px 10px 5px;
-  white-space: pre-line;
-}
-
-.instruction pre {
-    padding: 0px;
-    margin: 0px;
+  text-align: center;
 }
 
 ul {
@@ -36,6 +22,7 @@ ul {
   padding: 0;
   width: 100%;
   max-width: 600px;
+  margin-bottom: 30px;
 }
 
 li {
@@ -43,13 +30,13 @@ li {
   margin-bottom: 10px;
   padding: 15px 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   transition: transform 0.1s ease-in-out, box-shadow 0.2s;
 }
 
 li:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 a {
@@ -67,9 +54,26 @@ a:hover {
   color: #666;
 }
 
+.instruction {
+  width: 100%;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0px 10px 0px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  white-space: pre-wrap;
+  margin: 0px;
+}
+
+.instruction pre {
+    padding:  0px;
+    margin: 0px;
+}
+
 .chrome-link {
   color: black;
   text-decoration: underline;
+  cursor: pointer;
   transition: color 0.2s;
 }
 
@@ -80,4 +84,54 @@ a:hover {
 .chrome-link:visited {
   color: black;
   text-decoration: underline;
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px 24px;
+  max-width: 500px;
+  width: 90%;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: #888;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  white-space: pre-wrap;
+}
+
+.search-icon:hover {
+  fill: #007acc;
 }
