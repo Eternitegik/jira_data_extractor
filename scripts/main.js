@@ -3,56 +3,115 @@ const repo = 'jira_data_extractor';
 const branch = 'main';
 const path = 'Release';
 
-fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`)
-  .then(response => response.json())
-  .then(data => {
-    const list = document.getElementById('file-list');
-    list.innerHTML = '';
+const metadataUrl = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${path}/metadata.json`;
+const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`;
 
-    data
-      .filter(item => item.type === 'file')
-      .sort((a, b) => b.name.localeCompare(a.name))
-      .forEach(item => {
-        const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = item.download_url;
-        link.textContent = item.name;
-        link.target = '_blank';
-        li.appendChild(link);
-        list.appendChild(li);
-      });
+const latestList = document.getElementById('latest-file');
+const fileList = document.getElementById('file-list');
 
-    if (list.children.length === 0) {
-      list.innerHTML = '<li>Нет файлов для отображения.</li>';
+latestList.innerHTML = '<li class="loading">Загрузка...</li>';
+fileList.innerHTML = '<li class="loading">Загрузка...</li>';
+
+Promise.all([
+  fetch(metadataUrl).then(r => r.json()),
+  fetch(apiUrl).then(r => r.json())
+])
+  .then(([metadata, files]) => {
+    const fileMap = {};
+    files.forEach(file => {
+      if (file.name !== 'metadata.json') {
+        fileMap[file.name] = file.download_url;
+      }
+    });
+
+    const sortedFiles = metadata
+      .filter(f => fileMap[f.name])
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (sortedFiles.length === 0) {
+      latestList.innerHTML = '<li>Нет файлов.</li>';
+      fileList.innerHTML = '<li>Нет файлов.</li>';
+      return;
     }
+
+    latestList.innerHTML = '';
+    fileList.innerHTML = '';
+
+    // --- Последний файл ---
+    const latest = sortedFiles[0];
+    const latestLi = document.createElement('li');
+
+    const latestLink = document.createElement('a');
+    latestLink.href = fileMap[latest.name];
+    latestLink.textContent = latest.name;
+    latestLink.target = '_blank';
+
+    const descriptionP = document.createElement('p');
+    const maxLength = 200;
+    const fullText = latest.description || '';
+    const shortText = fullText.length > maxLength ? fullText.slice(0, maxLength) + '…' : fullText;
+
+    descriptionP.textContent = shortText;
+
+    if (fullText.length > maxLength) {
+      const icon = document.createElement('span');
+      icon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#555"
+             class="search-icon" viewBox="0 0 24 24">
+          <path d="M10 2a8 8 0 105.29 14.29l4.59 4.59 1.41-1.41-4.59-4.59A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+        </svg>
+      `;
+      icon.title = 'Показать полное описание';
+      icon.style.cursor = 'pointer';
+      icon.addEventListener('click', () => showModal(fullText));
+      descriptionP.appendChild(icon);
+    }
+
+    latestLi.appendChild(latestLink);
+    latestLi.appendChild(descriptionP);
+    latestList.appendChild(latestLi);
+
+    // --- Остальные файлы ---
+    sortedFiles.slice(1).forEach(file => {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = fileMap[file.name];
+      link.textContent = file.name;
+      link.target = '_blank';
+      li.appendChild(link);
+      fileList.appendChild(li);
+    });
   })
-  .catch(error => {
-    console.error('Ошибка при получении данных:', error);
-    document.getElementById('file-list').innerHTML =
-      '<li>Не удалось загрузить список файлов. Попробуйте позже. Сервис может временно не работать.</li>';
+  .catch(err => {
+    console.error('Ошибка при загрузке:', err);
+    latestList.innerHTML = '<li>Ошибка загрузки metadata.json</li>';
+    fileList.innerHTML = '<li>Ошибка загрузки списка файлов</li>';
   });
 
-  /*function GetAdvertisement(){
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow"
-    };
-    const randomParam = Math.random().toString(36).substring(7);
+// --- Модальное окно ---
+function showModal(text) {
+  let modal = document.getElementById('desc-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'desc-modal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <div id="modal-text" class="modal-text"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
 
-    fetch("https://eternitegik.github.io/VKPlayliveNow_News/advertisement?cache=" + randomParam, requestOptions)
-      .then((response) => response.text())
-      .then((result) => SetAdvertisement(result))
-      .catch((error) => console.error(error));
+    document.getElementById('modal-close').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  }
+
+  document.getElementById('modal-text').textContent = text;
+  modal.style.display = 'flex';
 }
-
-
-function SetAdvertisement(result){
-    var Advertisement = JSON.parse(result);
-    
-    console.log(Advertisement)
-    
-    console.log(Advertisement.data.advertisement)
-     Advertisement.data.advertisement.forEach((element) => {
-        console.log(element)
-    })
-}*/
