@@ -3,9 +3,7 @@ const repo = 'jira_data_extractor';
 const branch = 'main';
 const path = 'Release';
 
-const randomParam = Math.random().toString(36).substring(7);
-
-fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}?cache=${randomParam}`)
+fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`)
   .then(response => response.json())
   .then(data => {
     const list = document.getElementById('file-list');
@@ -33,3 +31,28 @@ fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${b
     document.getElementById('file-list').innerHTML =
       '<li>Не удалось загрузить список файлов. Попробуйте позже. Сервис может временно не работать.</li>';
   });
+
+  /*function GetAdvertisement(){
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    const randomParam = Math.random().toString(36).substring(7);
+
+    fetch("https://eternitegik.github.io/VKPlayliveNow_News/advertisement?cache=" + randomParam, requestOptions)
+      .then((response) => response.text())
+      .then((result) => SetAdvertisement(result))
+      .catch((error) => console.error(error));
+}
+
+
+function SetAdvertisement(result){
+    var Advertisement = JSON.parse(result);
+    
+    console.log(Advertisement)
+    
+    console.log(Advertisement.data.advertisement)
+     Advertisement.data.advertisement.forEach((element) => {
+        console.log(element)
+    })
+}*/
