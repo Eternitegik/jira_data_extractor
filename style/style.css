@@ -12,7 +12,7 @@ body {
 
 h1 {
   font-size: 28px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .instruction {
@@ -21,9 +21,14 @@ h1 {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  margin-bottom: 30px;
-  padding: 20px;
+  margin-bottom: 20px;
+  padding: 5px 10px 5px;
   white-space: pre-line;
+}
+
+.instruction pre {
+    padding: 0px;
+    margin: 0px;
 }
 
 ul {
