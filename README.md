@@ -1,3 +1,6 @@
+  <h1>Скачать расширение:</h1>
+  https://eternitegik.github.io/jira_data_extractor/
+  
   <h1>Установка расширения</h1>
   <div class="instruction">
     <pre>
