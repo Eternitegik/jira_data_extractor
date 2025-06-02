@@ -64,36 +64,40 @@
   </ul>
 
   <script>
-    const username = 'Eternitegik';
-    const repo = 'jira_data_extractor';
-    const branch = 'main';
-    const path = 'Release';
+  const username = 'Eternitegik';
+  const repo = 'jira_data_extractor';
+  const branch = 'main';
+  const path = 'Release';
 
-    fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`)
-      .then(response => response.json())
-      .then(data => {
-        const list = document.getElementById('file-list');
-        list.innerHTML = ''; // Очистить "Загрузка..."
-        data.forEach(item => {
-          if (item.type === 'file') {
-            const li = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = item.download_url;
-            link.textContent = item.name;
-            link.target = '_blank';
-            li.appendChild(link);
-            list.appendChild(li);
-          }
+  fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`)
+    .then(response => response.json())
+    .then(data => {
+      const list = document.getElementById('file-list');
+      list.innerHTML = ''; // Очистить "Загрузка..."
+
+      // Сортировка в обратном порядке по имени
+      data
+        .filter(item => item.type === 'file')
+        .sort((a, b) => b.name.localeCompare(a.name)) // ← сортировка по имени DESC
+        .forEach(item => {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = item.download_url;
+          link.textContent = item.name;
+          link.target = '_blank';
+          li.appendChild(link);
+          list.appendChild(li);
         });
-        if (list.children.length === 0) {
-          list.innerHTML = '<li>Нет файлов для отображения.</li>';
-        }
-      })
-      .catch(error => {
-        console.error('Ошибка при получении данных:', error);
-        document.getElementById('file-list').innerHTML =
-          '<li>Не удалось загрузить список файлов. Попробуйте позже.</li>';
-      });
-  </script>
+
+      if (list.children.length === 0) {
+        list.innerHTML = '<li>Нет файлов для отображения.</li>';
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка при получении данных:', error);
+      document.getElementById('file-list').innerHTML =
+        '<li>Не удалось загрузить список файлов. Попробуйте позже.</li>';
+    });
+</script>
 </body>
 </html>
