@@ -82,3 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 });
+
+
+// Проверка списка релизных файлов
+// https://eternitegik.github.io/jira_data_extractor/Release/metadata.json

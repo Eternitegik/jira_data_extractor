@@ -20,7 +20,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const url = tab.url || "";
-  if (info.menuItemId === "getJiraData" && url.includes("jira.dear.com.ru")) {
+  if (
+    info.menuItemId === "getJiraData" &&
+    (url.includes("jira.dear.com.ru") || url.includes("jira.rtk-sr.tech"))
+  ) {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       function: extractAndCopyJiraData
