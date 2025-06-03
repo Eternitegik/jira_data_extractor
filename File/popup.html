@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Настройки Jira копирования</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h2>Поля для копирования из Jira</h2>
+  <form id="options-form">
+    <ul id="fields-list">
+	  <li draggable="true" data-key="title" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="title" /> Заголовок</label>
+	  </li>
+	  <li draggable="true" data-key="link" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="link" /> Ссылка</label>
+	  </li>
+	  <li draggable="true" data-key="executor" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="executor" /> Исполнитель</label>
+	  </li>
+	  <li draggable="true" data-key="author" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="author" /> Автор</label>
+	  </li>
+	  <li draggable="true" data-key="status" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="status" /> Статус</label>
+	  </li>
+	  <li draggable="true" data-key="description" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="description" /> Пустая ячейка</label>
+	  </li>
+	  <li draggable="true" data-key="type_task" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="type_task" /> Тип задачи</label>
+	  </li>
+	</ul>
+	<hr />
+	  <label>
+		<input type="checkbox" id="showNotification" />
+		Показывать уведомление после копирования
+	  </label>
+	<hr />
+    <button type="submit">Сохранить</button>
+  </form>
+  <div id="update_ex">
+	<hr />
+	Доступна новая версия: 1.1
+	<br/>
+	<button>Скачать</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
