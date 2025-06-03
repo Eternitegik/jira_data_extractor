@@ -135,3 +135,19 @@ a:hover {
 .search-icon:hover {
   fill: #007acc;
 }
+
+.file-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-name {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.icon-right {
+  display: flex;
+  align-items: center;
+}

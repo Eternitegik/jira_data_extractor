@@ -54,16 +54,7 @@ Promise.all([
     descriptionP.textContent = shortText;
 
     if (fullText.length > maxLength) {
-      const icon = document.createElement('span');
-      icon.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#555"
-             class="search-icon" viewBox="0 0 24 24">
-          <path d="M10 2a8 8 0 105.29 14.29l4.59 4.59 1.41-1.41-4.59-4.59A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
-        </svg>
-      `;
-      icon.title = 'Показать полное описание';
-      icon.style.cursor = 'pointer';
-      icon.addEventListener('click', () => showModal(fullText));
+      const icon = createSearchIcon(() => showModal(fullText));
       descriptionP.appendChild(icon);
     }
 
@@ -74,17 +65,30 @@ Promise.all([
     // --- Остальные файлы ---
     sortedFiles.slice(1).forEach(file => {
       const li = document.createElement('li');
+      li.classList.add('file-item');
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'file-entry';
+
       const link = document.createElement('a');
       link.href = fileMap[file.name];
       link.textContent = file.name;
+      link.className = 'file-name';
       link.target = '_blank';
-      li.appendChild(link);
+      link.download = file.name;
+
+      const icon = createSearchIcon(() => showModal(file.description || 'Описание отсутствует'));
+
+      wrapper.appendChild(link);
+      wrapper.appendChild(icon);
+      li.appendChild(wrapper);
       fileList.appendChild(li);
     });
+
   })
   .catch(err => {
     console.error('Ошибка при загрузке:', err);
-    latestList.innerHTML = '<li>Ошибка загрузки metadata.json</li>';
+    latestList.innerHTML = '<li>Превышен лимит загрузки данных. Попробуйте позже.</li>';
     fileList.innerHTML = '<li>Ошибка загрузки списка файлов</li>';
   });
 
@@ -114,4 +118,19 @@ function showModal(text) {
 
   document.getElementById('modal-text').textContent = text;
   modal.style.display = 'flex';
+}
+
+function createSearchIcon(onClick) {
+  const icon = document.createElement('span');
+  icon.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#555"
+         class="search-icon" viewBox="0 0 24 24">
+      <path d="M10 2a8 8 0 105.29 14.29l4.59 4.59 1.41-1.41-4.59-4.59A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+    </svg>
+  `;
+  icon.style.cursor = 'pointer';
+  icon.title = 'Показать описание';
+  icon.classList.add('icon-right');
+  icon.addEventListener('click', onClick);
+  return icon;
 }
