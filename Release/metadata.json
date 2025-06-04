@@ -22,5 +22,11 @@
     "date": "2025-06-03T17:13:00Z",
     "version": 1.3,
     "description": "Исправлена ошибка при работе с jira.rtk-sr.tech"
+  },
+  {
+    "name": "JiraED_1.4.zip",
+    "date": "2025-06-04T23:59:00Z",
+    "version": 1.3,
+    "description": "Исправлена ошибка при работе с jira.rtk-sr.tech"
   }
 ]

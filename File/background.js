@@ -50,7 +50,11 @@ async function extractAndCopyJiraData() {
 
     switch (key) {
       case "title":
-        data.push(getElementText("//h1[@id='summary-val']"));
+        let title = getElementText("//h1[@id='summary-val']");
+        if (!title) {
+          title = getElementText("//h2[@id='summary-val']");
+        }
+        data.push(title);
         break;
 	  case "description":
         data.push(" ");
