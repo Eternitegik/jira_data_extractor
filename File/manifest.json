@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Jira Data Extractor",
-  "version": "1.0",
+  "version": "1.3",
   "description": "Копирует данные с Jira страницы",
   "permissions": ["contextMenus", "scripting", "activeTab", "storage"],
   "background": {

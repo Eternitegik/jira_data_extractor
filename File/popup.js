@@ -84,5 +84,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-// Проверка списка релизных файлов
-// https://eternitegik.github.io/jira_data_extractor/Release/metadata.json
+// Проверить верию расширения, если верия расширения ниже чем в manifest.json с сайта
+// https://eternitegik.github.io/jira_data_extractor/File/manifest.json
