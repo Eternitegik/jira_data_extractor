@@ -13,8 +13,14 @@ latestList.innerHTML = '<li class="loading">Загрузка...</li>';
 fileList.innerHTML = '<li class="loading">Загрузка...</li>';
 
 Promise.all([
-  fetch(metadataUrl).then(r => r.json()),
-  fetch(apiUrl).then(r => r.json())
+  fetch(metadataUrl).then(async r => {
+    if (!r.ok) throw new Error(`Ошибка metadata: ${r.status}`);
+    return r.json();
+  }),
+  fetch(apiUrl).then(async r => {
+    if (!r.ok) throw new Error(`Ошибка API GitHub: ${r.status}`);
+    return r.json();
+  })
 ])
   .then(([metadata, files]) => {
     const fileMap = {};
@@ -86,11 +92,30 @@ Promise.all([
     });
 
   })
-  .catch(err => {
-    console.error('Ошибка при загрузке:', err);
-    latestList.innerHTML = '<li>Превышен лимит загрузки данных. Попробуйте позже.</li>';
-    fileList.innerHTML = '<li>Ошибка загрузки списка файлов</li>';
-  });
+  .catch(async err => {
+  console.error('Ошибка при загрузке:', err);
+
+  let fallbackLink = '';
+
+  try {
+    const metaResp = await fetch(metadataUrl);
+    if (!metaResp.ok) throw new Error(`metadata.json вернул ${metaResp.status}`);
+    const metadata = await metaResp.json();
+
+    const sorted = metadata.sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (sorted.length > 0) {
+      const lastName = sorted[0].name;
+      const url = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${path}/${lastName}`;
+      fallbackLink = `<br>Альтернативная ссылка: <a href="${url}" target="_blank" rel="noopener">Скачать</a>`;
+    }
+  } catch (e) {
+    console.warn("Не удалось получить альтернативную ссылку:", e);
+  }
+
+  latestList.innerHTML = `<li>Превышен лимит загрузки данных. Попробуйте позже.${fallbackLink}</li>`;
+  fileList.innerHTML = '<li>Ошибка загрузки списка файлов</li>';
+});
+
 
 // --- Модальное окно ---
 function showModal(text) {
