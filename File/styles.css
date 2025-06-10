@@ -40,3 +40,19 @@ hr{
 #update_ex{
   display: none;
 }
+
+.chrome-link {
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.chrome-link:hover {
+  color: #007acc;
+}
+
+.chrome-link:visited {
+  color: black;
+  text-decoration: underline;
+}

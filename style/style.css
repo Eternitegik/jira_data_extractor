@@ -70,6 +70,13 @@ a:hover {
     margin: 0px;
 }
 
+.instruction pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 0;
+  margin: 0;
+}
+
 .chrome-link {
   color: black;
   text-decoration: underline;
@@ -150,4 +157,27 @@ a:hover {
 .icon-right {
   display: flex;
   align-items: center;
+}
+
+.page-menu {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-menu button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.page-menu button:hover {
+  background-color: #005fa3;
 }

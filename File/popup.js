@@ -81,6 +81,45 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert("Настройки сохранены!");
     });
   });
+
+const username = 'Eternitegik';
+const repo = 'jira_data_extractor';
+const branch = 'main';
+const path = 'Release';
+
+  const metadataUrl = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${path}/metadata.json`;
+  try {
+    const metaResp = await fetch(metadataUrl);
+    if (!metaResp.ok) throw new Error(`metadata.json вернул ${metaResp.status}`);
+    const metadata = await metaResp.json();
+
+    const sorted = metadata.sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (sorted.length > 0) {
+      const lastName = sorted[0].name;
+      const url = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${path}/${lastName}`;
+      const version = sorted[0].version;
+
+      const version_ex = chrome.runtime.getManifest().version;
+
+
+      document.getElementById("version_ex").textContent = `Текущая версия: ${version_ex}`;
+      document.getElementById("version").textContent = `Последняя версия: ${version}`;
+      document.getElementById("version_download").innerHTML = `<a class="chrome-link" href="${url}" target="_blank" rel="noopener">Скачать</a>    -    <a class="chrome-link" href="https://eternitegik.github.io/jira_data_extractor/" target="_blank" rel="noopener">Инструкция</a>`;
+
+      var valuepars = parseFloat(version_ex);
+
+      if(version > valuepars){
+        document.getElementById("update_ex").style.display = 'block';
+      }
+      
+      console.log(version);
+      console.log(url);
+      console.log(version_ex);
+      console.log(valuepars);
+    }
+  } catch (e) {
+    console.warn("Не удалось получить альтернативную ссылку:", e);
+  }
 });
 
 

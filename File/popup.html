@@ -24,11 +24,17 @@
 	  <li draggable="true" data-key="status" title="Элемент можно перетаскивать">
 		<label><input type="checkbox" name="status" /> Статус</label>
 	  </li>
-	  <li draggable="true" data-key="description" title="Элемент можно перетаскивать">
-		<label><input type="checkbox" name="description" /> Пустая ячейка</label>
-	  </li>
 	  <li draggable="true" data-key="type_task" title="Элемент можно перетаскивать">
 		<label><input type="checkbox" name="type_task" /> Тип задачи</label>
+	  </li>
+	  <li draggable="true" data-key="data_create" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="data_create" /> Дата создания</label>
+	  </li>
+	  <li draggable="true" data-key="data_update" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="data_update" /> Дата обновления</label>
+	  </li>
+	  <li draggable="true" data-key="description" title="Элемент можно перетаскивать">
+		<label><input type="checkbox" name="description" /> Пустая ячейка</label>
 	  </li>
 	</ul>
 	<hr />
@@ -41,9 +47,10 @@
   </form>
   <div id="update_ex">
 	<hr />
-	Доступна новая версия: 1.1
-	<br/>
-	<button>Скачать</button>
+	<p>Доступна новая версия расширения!</p>
+	<p id="version_ex">Текущая версия: ...</p>
+	<p id="version">Последняя версия: ...</p>
+	<p id="version_download">Скачивание сломано</p>
   </div>
   <script src="popup.js"></script>
 </body>

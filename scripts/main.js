@@ -159,3 +159,10 @@ function createSearchIcon(onClick) {
   icon.addEventListener('click', onClick);
   return icon;
 }
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
